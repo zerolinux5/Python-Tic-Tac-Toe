@@ -40,6 +40,16 @@ def get_next_value(player, board_state):
         invalid_value = value < 1 or value > 9
     return value
 
+def update_board_state(board_state, next_play, player):
+    if player == PLAYER_ONE:
+        player_char = "X"
+    else:
+        player_char = "O"
+    next_play_str = str(next_play)
+    loc = board_state.index(next_play_str)
+    board_state[loc] = player_char
+    return board_state
+
 #Main loop
 def main():
     not_finished = True
@@ -52,7 +62,9 @@ def main():
         print_board_state(board_state)
         #2. Get player input
         next_play = get_next_value(player, board_state)
-        #3. Move to next player
+        #3. Replace value with player movement
+        board_state = update_board_state(board_state, next_play, player)
+        #4. Move to next player
         player = (player + 1) % 2
 
 #Call main if not imported
