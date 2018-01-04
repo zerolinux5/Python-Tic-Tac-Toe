@@ -5,6 +5,7 @@ PLAYER_ONE = 0
 PLAYER_TWO = 1
 EDGE = "-------"
 SPACE = " "
+INPUT_STRING = "|"
 
 #Return Board State as a string
 def get_board_string(board_state):
@@ -27,17 +28,32 @@ def print_board_state(board_state):
         print board_string[start:start + step]
         start += step
 
+# Get valid player value
+def get_next_value(player, board_state):
+    value = -1
+    input_string = "Player:%d enter a value:" %(player + 1)
+    is_not_in_board = value not in board_state
+    invalid_value = value < 1 or value > 9
+    while is_not_in_board or invalid_value:
+        value = input(input_string)
+        is_not_in_board = str(value) not in board_state
+        invalid_value = value < 1 or value > 9
+    return value
+
 #Main loop
 def main():
     not_finished = True
     player = PLAYER_ONE
-    board_state = [SPACE] * 9
+    board_state = range(1,10)
+    board_state = [str(val) for val in board_state]
     # Infinite loop
     while not_finished:
+        #1. Print board state
         print_board_state(board_state)
+        #2. Get player input
+        next_play = get_next_value(player, board_state)
+        #3. Move to next player
         player = (player + 1) % 2
-        # For now iterate once
-        not_finished = False
 
 #Call main if not imported
 if __name__ == "__main__":
